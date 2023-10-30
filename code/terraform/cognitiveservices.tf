@@ -56,7 +56,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting_cognitive_serv
   }
 }
 
-resource "azurerm_private_endpoint" "cognitive_service_private_endpoint" {
+resource "azurerm_private_endpoint" "cognitive_services_private_endpoint" {
   for_each = var.cognitive_services
 
   name                = "${azurerm_cognitive_account.cognitive_accounts[each.key].name}-pe"
