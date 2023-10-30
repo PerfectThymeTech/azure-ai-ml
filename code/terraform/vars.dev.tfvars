@@ -28,10 +28,10 @@ machine_learning_compute_instances = {
 open_ai_enabled        = false
 search_service_enabled = false
 cognitive_services = {
-  "frmrcg" = {
-    kind     = "FormRecognizer"
-    sku_name = "S0"
-  }
+  # "frmrcg" = {
+  #   kind     = "FormRecognizer"
+  #   sku_name = "S0"
+  # }
 }
 
 // Network variables
