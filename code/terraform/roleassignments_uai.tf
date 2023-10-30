@@ -57,3 +57,25 @@ resource "azurerm_role_assignment" "uai_role_assignment_machine_learning_workspa
   role_definition_name = "Contributor"
   principal_id         = azurerm_user_assigned_identity.user_assigned_identity.principal_id
 }
+
+resource "azurerm_role_assignment" "uai_role_assignment_search_service_contributor" {
+  count                = var.search_service_enabled ? 1 : 0
+  scope                = azurerm_search_service.search_service[0].id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_user_assigned_identity.user_assigned_identity.principal_id
+}
+
+resource "azurerm_role_assignment" "uai_role_assignment_cognitive_account_contributor" {
+  count                = var.open_ai_enabled ? 1 : 0
+  scope                = azurerm_cognitive_account.cognitive_account[0].id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_user_assigned_identity.user_assigned_identity.principal_id
+}
+
+resource "azurerm_role_assignment" "uai_role_assignment_cognitive_accounts_contributor" {
+  for_each = var.cognitive_services
+
+  scope                = azurerm_cognitive_account.cognitive_accounts[each.key].id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_user_assigned_identity.user_assigned_identity.principal_id
+}
