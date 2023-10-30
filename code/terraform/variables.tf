@@ -1,3 +1,4 @@
+# General variables
 variable "location" {
   description = "Specifies the location for all Azure resources."
   type        = string
@@ -42,30 +43,7 @@ variable "resource_group_name" {
   }
 }
 
-variable "subnet_id" {
-  description = "Specifies the resource ID of the subnet used for the Private Endpoints."
-  type        = string
-  sensitive   = false
-  validation {
-    condition     = length(split("/", var.subnet_id)) == 11
-    error_message = "Please specify a valid resource ID."
-  }
-}
-
-variable "search_service_enabled" {
-  description = "Specifies whether Azure Cognitive Search should be deployed."
-  type        = bool
-  sensitive   = false
-  default     = false
-}
-
-variable "open_ai_enabled" {
-  description = "Specifies whether Azure Open AI should be deployed."
-  type        = bool
-  sensitive   = false
-  default     = false
-}
-
+// ML variables
 variable "machine_learning_compute_clusters" {
   type = map(object({
     vm_priority = optional(string, "Dedicated")
@@ -81,7 +59,7 @@ variable "machine_learning_compute_clusters" {
   description = "Specifies the compute cluster to be created for the Machine Learning Workspace."
   validation {
     condition = alltrue([
-      length([for vm_priority in values(var.machine_learning_compute_clusters)[*].vm_priority : vm_priority if !contains(["Dedicated", "Dedicated"], vm_priority)]) <= 0
+      length([for vm_priority in values(var.machine_learning_compute_clusters)[*].vm_priority : vm_priority if !contains(["LowPriority", "Dedicated"], vm_priority)]) <= 0
     ])
     error_message = "Please specify a compute cluster configuration."
   }
@@ -97,10 +75,53 @@ variable "machine_learning_compute_instances" {
   description = "Specifies the compute instances to be created for the Machine Learning Workspace."
   # validation {
   #   condition = alltrue([
-  #     length([for vm_priority in values(var.machine_learning_compute_clusters)[*].vm_priority : vm_priority if !contains(["Dedicated", "Dedicated"], vm_priority)]) <= 0
+  #     length([for vm_priority in values(var.machine_learning_compute_clusters)[*].vm_priority : vm_priority if !contains(["LowPriority", "Dedicated"], vm_priority)]) <= 0
   #   ])
   #   error_message = "Please specify a compute instance configuration."
   # }
+}
+
+// Service enablement variables
+variable "search_service_enabled" {
+  description = "Specifies whether Azure Cognitive Search should be deployed."
+  type        = bool
+  sensitive   = false
+  default     = false
+}
+
+variable "open_ai_enabled" {
+  description = "Specifies whether Azure Open AI should be deployed."
+  type        = bool
+  sensitive   = false
+  default     = false
+}
+
+variable "cognitive_services" {
+  type = map(object({
+    kind     = string
+    sku_name = optional(string, "S0")
+  }))
+  sensitive   = false
+  default     = {}
+  description = "Specifies the cognitive services deployed for this use-case."
+  validation {
+    condition = alltrue([
+      length([for kind in values(var.cognitive_services)[*].kind : kind if !contains(["Academic", "AnomalyDetector", "Bing.Autosuggest", "Bing.Autosuggest.v7", "Bing.CustomSearch", "Bing.Search", "Bing.Search.v7", "Bing.Speech", "Bing.SpellCheck", "Bing.SpellCheck.v7", "CognitiveServices", "ComputerVision", "ContentModerator", "CustomSpeech", "CustomVision.Prediction", "CustomVision.Training", "Emotion", "Face", "FormRecognizer", "ImmersiveReader", "LUIS", "LUIS.Authoring", "MetricsAdvisor", "Personalizer", "QnAMaker", "Recommendations", "SpeakerRecognition", "Speech", "SpeechServices", "SpeechTranslation", "TextAnalytics", "TextTranslation", "WebLM"], kind)]) <= 0,
+      length([for sku_name in values(var.cognitive_services)[*].sku_name : sku_name if !contains(["F0", "F1", "S0", "S", "S1", "S2", "S3", "S4", "S5", "S6", "P0", "P1", "P2", "E0", "DC0"], sku_name)]) <= 0
+    ])
+    error_message = "Please specify a compute instance configuration."
+  }
+}
+
+// Network variables
+variable "subnet_id" {
+  description = "Specifies the resource ID of the subnet used for the Private Endpoints."
+  type        = string
+  sensitive   = false
+  validation {
+    condition     = length(split("/", var.subnet_id)) == 11
+    error_message = "Please specify a valid resource ID."
+  }
 }
 
 variable "private_dns_zone_id_container_registry" {
@@ -213,6 +234,18 @@ variable "private_dns_zone_id_open_ai" {
   }
 }
 
+variable "private_dns_zone_id_cognitive_services" {
+  description = "Specifies the resource ID of the private DNS zone for Azure Cognitive Service endpoints. Not required if DNS A-records get created via Azure Policy."
+  type        = string
+  sensitive   = false
+  default     = ""
+  validation {
+    condition     = var.private_dns_zone_id_cognitive_services == "" || (length(split("/", var.private_dns_zone_id_cognitive_services)) == 9 && endswith(var.private_dns_zone_id_cognitive_services, "privatelink.cognitiveservices.azure.com"))
+    error_message = "Please specify a valid resource ID for the private DNS Zone."
+  }
+}
+
+# Other resources
 variable "data_platform_subscription_ids" {
   description = "Specifies the list of subscription IDs of your data platform."
   type        = list(string)
