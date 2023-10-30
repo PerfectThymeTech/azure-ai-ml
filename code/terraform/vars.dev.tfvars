@@ -1,11 +1,11 @@
-location               = "northeurope"
-environment            = "dev"
-prefix                 = "dpml"
-tags                   = {}
-resource_group_name    = "myprod-dev-analytics-rg"
-subnet_id              = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-logic-network-rg/providers/Microsoft.Network/virtualNetworks/mycrp-prd-logic-vnet001/subnets/PeSubnet"
-open_ai_enabled        = false
-search_service_enabled = false
+# General variables
+location            = "northeurope"
+environment         = "dev"
+prefix              = "dpml"
+tags                = {}
+resource_group_name = "myprod-dev-analytics-rg"
+
+// ML variables
 machine_learning_compute_clusters = {
   # "cpu001" = {
   #   vm_priority = "Dedicated"
@@ -23,12 +23,19 @@ machine_learning_compute_instances = {
   #   user_object_id = "540d8186-5d32-4ab6-a962-0d91ba5bd2c2"
   # }
 }
+
+// Service enablement variables
+open_ai_enabled        = false
+search_service_enabled = false
 cognitive_services = {
   "frmrcg" = {
     kind     = "FormRecognizer"
     sku_name = "S0"
   }
 }
+
+// Network variables
+subnet_id                                      = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-logic-network-rg/providers/Microsoft.Network/virtualNetworks/mycrp-prd-logic-vnet001/subnets/PeSubnet"
 private_dns_zone_id_blob                       = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"
 private_dns_zone_id_file                       = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net"
 private_dns_zone_id_table                      = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net"
