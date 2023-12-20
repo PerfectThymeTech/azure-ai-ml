@@ -9,7 +9,7 @@ resource "azurerm_container_registry" "container_registry" {
 
   admin_enabled              = false
   anonymous_pull_enabled     = false
-  data_endpoint_enabled      = false
+  data_endpoint_enabled      = true
   export_policy_enabled      = false
   network_rule_bypass_option = "AzureServices"
   network_rule_set = [
