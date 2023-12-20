@@ -33,6 +33,24 @@ locals {
       destination = "pypi.org"
       status      = "Active"
     },
+    "pypi002" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "pythonhosted.org"
+      status      = "Active"
+    },
+    "pypi003" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.pythonhosted.org"
+      status      = "Active"
+    },
+    "pypi004" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "pypi.python.org"
+      status      = "Active"
+    },
     "r001" = {
       type        = "FQDN"
       category    = "UserDefined"
@@ -129,6 +147,42 @@ locals {
       destination = "openaipublic.blob.core.windows.net"
       status      = "Active"
     },
+    "docker001" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "docker.io"
+      status      = "Active"
+    },
+    "docker002" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.docker.io"
+      status      = "Active"
+    },
+    "docker003" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.docker.com"
+      status      = "Active"
+    },
+    "docker004" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "production.cloudflare.docker.com"
+      status      = "Active"
+    },
+    "docker005" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "cdn.auth0.com"
+      status      = "Active"
+    },
+    "huggingface001" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "cdn-lfs.huggingface.co"
+      status      = "Active"
+    },
     "${azurerm_storage_account.storage.name}-table" = {
       type     = "PrivateEndpoint"
       category = "UserDefined"
@@ -151,6 +205,18 @@ locals {
         sparkStatus       = "Active"
       }
     }
+    # ,
+    # "${azurerm_storage_account.storage.name}-blob" = {
+    #   type     = "PrivateEndpoint"
+    #   category = "UserDefined"
+    #   status   = "Active"
+    #   destination = {
+    #     serviceResourceId = azurerm_storage_account.storage.id
+    #     subresourceTarget = "blob"
+    #     sparkEnabled      = true
+    #     sparkStatus       = "Active"
+    #   }
+    # }
   }
   search_service_machine_learning_workspace_outbound_rules = {
     "${var.search_service_enabled ? azurerm_search_service.search_service[0].name : ""}-searchService" = {
