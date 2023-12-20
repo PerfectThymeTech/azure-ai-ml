@@ -7,10 +7,10 @@ resource "azurerm_container_registry" "container_registry" {
     type = "SystemAssigned"
   }
 
-  admin_enabled              = true
+  admin_enabled              = false
   anonymous_pull_enabled     = false
   data_endpoint_enabled      = false
-  export_policy_enabled      = true
+  export_policy_enabled      = false
   network_rule_bypass_option = "AzureServices"
   network_rule_set = [
     {
@@ -20,11 +20,11 @@ resource "azurerm_container_registry" "container_registry" {
     }
   ]
   public_network_access_enabled = false
-  quarantine_policy_enabled     = true
+  quarantine_policy_enabled     = false
   retention_policy = [
     {
       days    = 7
-      enabled = true
+      enabled = false
     }
   ]
   sku = "Premium"
