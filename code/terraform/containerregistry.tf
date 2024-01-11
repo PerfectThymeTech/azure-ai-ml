@@ -14,8 +14,8 @@ resource "azurerm_container_registry" "container_registry" {
   network_rule_bypass_option = "AzureServices"
   network_rule_set = [
     {
-      default_action  = "Deny"
-      ip_rule         = []
+      default_action = "Deny"
+      ip_rule        = []
     }
   ]
   public_network_access_enabled = false
