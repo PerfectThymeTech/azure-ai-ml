@@ -235,10 +235,15 @@ locals {
       status      = "Active"
     },
     "azure001" = {
-      type        = "ServiceTag"
-      category    = "UserDefined"
-      destination = "AzureOpenDatasets"
-      status      = "Active"
+      type     = "ServiceTag"
+      category = "UserDefined"
+      destination = {
+        "serviceTag" : "AzureOpenDatasets",
+        "protocol" : "TCP",
+        "portRanges" : "443",
+        "action" : "Allow"
+      },
+      status = "Active"
     },
     "huggingface001" = {
       type        = "FQDN"
