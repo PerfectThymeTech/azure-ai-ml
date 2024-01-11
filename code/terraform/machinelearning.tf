@@ -36,24 +36,24 @@ resource "azurerm_machine_learning_workspace" "machine_learning_workspace" {
   ]
 }
 
-resource "azapi_update_resource" "machine_learning_managed_network" {
-  type        = "Microsoft.MachineLearningServices/workspaces@2023-06-01-preview"
-  resource_id = azurerm_machine_learning_workspace.machine_learning_workspace.id
+# resource "azapi_update_resource" "machine_learning_managed_network" {
+#   type        = "Microsoft.MachineLearningServices/workspaces@2023-06-01-preview"
+#   resource_id = azurerm_machine_learning_workspace.machine_learning_workspace.id
 
-  body = jsonencode({
-    properties = {
-      managedNetwork = {
-        isolationMode = "AllowOnlyApprovedOutbound"
-        status = {
-          status     = "Active"
-          sparkReady = true
-        }
-        outboundRules = local.machine_learning_workspace_outbound_rules
-      }
-      systemDatastoresAuthMode = "identity"
-    }
-  })
-}
+#   body = jsonencode({
+#     properties = {
+#       managedNetwork = {
+#         isolationMode = "AllowOnlyApprovedOutbound"
+#         status = {
+#           status     = "Active"
+#           sparkReady = true
+#         }
+#         outboundRules = local.machine_learning_workspace_outbound_rules
+#       }
+#       systemDatastoresAuthMode = "identity"
+#     }
+#   })
+# }
 
 # resource "azapi_resource" "machine_learning_workspace" {
 #   type      = "Microsoft.MachineLearningServices/workspaces@2023-06-01-preview"
