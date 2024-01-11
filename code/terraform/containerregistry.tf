@@ -16,7 +16,6 @@ resource "azurerm_container_registry" "container_registry" {
     {
       default_action  = "Deny"
       ip_rule         = []
-      virtual_network = []
     }
   ]
   public_network_access_enabled = false
