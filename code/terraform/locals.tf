@@ -9,24 +9,7 @@ locals {
 
   default_machine_learning_workspace_image_builder_compute_name = "imagebuilder001"
   default_machine_learning_workspace_outbound_rules = {
-    "anaconda001" = {
-      type        = "FQDN"
-      category    = "UserDefined"
-      destination = "anaconda.com"
-      status      = "Active"
-    },
-    "anaconda002" = {
-      type        = "FQDN"
-      category    = "UserDefined"
-      destination = "*.anaconda.com"
-      status      = "Active"
-    },
-    "anaconda003" = {
-      type        = "FQDN"
-      category    = "UserDefined"
-      destination = "*.anaconda.org"
-      status      = "Active"
-    },
+    # Required pypi dependencies to be able to install libraries
     "pypi001" = {
       type        = "FQDN"
       category    = "UserDefined"
@@ -49,6 +32,24 @@ locals {
       type        = "FQDN"
       category    = "UserDefined"
       destination = "pypi.python.org"
+      status      = "Active"
+    },
+    "anaconda001" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "anaconda.com"
+      status      = "Active"
+    },
+    "anaconda002" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.anaconda.com"
+      status      = "Active"
+    },
+    "anaconda003" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.anaconda.org"
       status      = "Active"
     },
     "r001" = {
@@ -75,6 +76,7 @@ locals {
       destination = "*.tensorflow.org"
       status      = "Active"
     },
+    # Required for VSCode features. Dependencies are documented here: https://code.visualstudio.com/docs/setup/network#_common-hostnames
     "vscode001" = {
       type        = "FQDN"
       category    = "UserDefined"
@@ -195,6 +197,7 @@ locals {
       destination = "*.maven.org"
       status      = "Active"
     },
+    # Required for some prompt flow features where this public storage account is being used which is owned by Azure Open AI
     "openai001" = {
       type        = "FQDN"
       category    = "UserDefined"
