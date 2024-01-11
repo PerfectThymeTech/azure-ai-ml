@@ -135,6 +135,60 @@ locals {
       destination = "default.exp-tas.com"
       status      = "Active"
     },
+    "vscode011" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "code.visualstudio.com"
+      status      = "Active"
+    },
+    "vscode012" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.gallery.vsassets.io"
+      status      = "Active"
+    },
+    "vscode013" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vscode.search.windows.net"
+      status      = "Active"
+    },
+    "vscode014" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vsmarketplacebadges.dev"
+      status      = "Active"
+    },
+    "vscode015" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vscode.download.prss.microsoft.com"
+      status      = "Active"
+    },
+    "vscode016" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "download.visualstudio.microsoft.com"
+      status      = "Active"
+    },
+    "vscode017" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vscode-sync.trafficmanager.net"
+      status      = "Active"
+    },
+    "vscode018" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vscode.dev"
+      status      = "Active"
+    },
+    "vscode019" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.vscode-unpkg.net"
+      status      = "Active"
+    },
     "maven001" = {
       type        = "FQDN"
       category    = "UserDefined"
@@ -175,6 +229,12 @@ locals {
       type        = "FQDN"
       category    = "UserDefined"
       destination = "cdn.auth0.com"
+      status      = "Active"
+    },
+    "azure001" = {
+      type        = "ServiceTag"
+      category    = "UserDefined"
+      destination = "AzureOpenDatasets"
       status      = "Active"
     },
     "huggingface001" = {
