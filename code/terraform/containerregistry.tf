@@ -7,7 +7,7 @@ resource "azurerm_container_registry" "container_registry" {
     type = "SystemAssigned"
   }
 
-  admin_enabled              = false
+  admin_enabled              = true
   anonymous_pull_enabled     = false
   data_endpoint_enabled      = true
   export_policy_enabled      = false
