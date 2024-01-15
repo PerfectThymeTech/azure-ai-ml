@@ -273,18 +273,6 @@ locals {
         sparkStatus       = "Active"
       }
     }
-    # ,
-    # "${azurerm_storage_account.storage.name}-blob" = {
-    #   type     = "PrivateEndpoint"
-    #   category = "UserDefined"
-    #   status   = "Active"
-    #   destination = {
-    #     serviceResourceId = azurerm_storage_account.storage.id
-    #     subresourceTarget = "blob"
-    #     sparkEnabled      = true
-    #     sparkStatus       = "Active"
-    #   }
-    # }
   }
   search_service_machine_learning_workspace_outbound_rules = {
     "${var.search_service_enabled ? azurerm_search_service.search_service[0].name : ""}-searchService" = {
