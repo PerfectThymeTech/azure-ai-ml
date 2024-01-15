@@ -6,7 +6,7 @@ on:
     paths:
       - "**.tf"
       - "code/infra/**"
-      - ".github/workflows/deployment.yml"
+      - ".github/workflows/terraform.yml"
 
   pull_request:
     branches:
