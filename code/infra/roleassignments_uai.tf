@@ -10,6 +10,18 @@ resource "azurerm_role_assignment" "uai_role_assignment_container_registry_contr
   principal_id         = azurerm_user_assigned_identity.user_assigned_identity.principal_id
 }
 
+resource "azurerm_role_assignment" "uai_role_assignment_container_registry_acrpull" {
+  scope                = azurerm_container_registry.container_registry.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_user_assigned_identity.user_assigned_identity.principal_id
+}
+
+resource "azurerm_role_assignment" "uai_role_assignment_container_registry_acrpush" {
+  scope                = azurerm_container_registry.container_registry.id
+  role_definition_name = "AcrPush"
+  principal_id         = azurerm_user_assigned_identity.user_assigned_identity.principal_id
+}
+
 resource "azurerm_role_assignment" "uai_role_assignment_storage_contributor" {
   scope                = azurerm_storage_account.storage.id
   role_definition_name = "Contributor"

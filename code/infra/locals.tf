@@ -9,6 +9,31 @@ locals {
 
   default_machine_learning_workspace_image_builder_compute_name = "imagebuilder001"
   default_machine_learning_workspace_outbound_rules = {
+    # Required pypi dependencies to be able to install libraries
+    "pypi001" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "pypi.org"
+      status      = "Active"
+    },
+    "pypi002" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "pythonhosted.org"
+      status      = "Active"
+    },
+    "pypi003" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.pythonhosted.org"
+      status      = "Active"
+    },
+    "pypi004" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "pypi.python.org"
+      status      = "Active"
+    },
     "anaconda001" = {
       type        = "FQDN"
       category    = "UserDefined"
@@ -25,12 +50,6 @@ locals {
       type        = "FQDN"
       category    = "UserDefined"
       destination = "*.anaconda.org"
-      status      = "Active"
-    },
-    "pypi001" = {
-      type        = "FQDN"
-      category    = "UserDefined"
-      destination = "pypi.org"
       status      = "Active"
     },
     "r001" = {
@@ -57,6 +76,7 @@ locals {
       destination = "*.tensorflow.org"
       status      = "Active"
     },
+    # Required for VSCode features. Dependencies are documented here: https://code.visualstudio.com/docs/setup/network#_common-hostnames
     "vscode001" = {
       type        = "FQDN"
       category    = "UserDefined"
@@ -117,16 +137,118 @@ locals {
       destination = "default.exp-tas.com"
       status      = "Active"
     },
+    "vscode011" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "code.visualstudio.com"
+      status      = "Active"
+    },
+    "vscode012" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.gallery.vsassets.io"
+      status      = "Active"
+    },
+    "vscode013" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vscode.search.windows.net"
+      status      = "Active"
+    },
+    "vscode014" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vsmarketplacebadges.dev"
+      status      = "Active"
+    },
+    "vscode015" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vscode.download.prss.microsoft.com"
+      status      = "Active"
+    },
+    "vscode016" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "download.visualstudio.microsoft.com"
+      status      = "Active"
+    },
+    "vscode017" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vscode-sync.trafficmanager.net"
+      status      = "Active"
+    },
+    "vscode018" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "vscode.dev"
+      status      = "Active"
+    },
+    "vscode019" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.vscode-unpkg.net"
+      status      = "Active"
+    },
     "maven001" = {
       type        = "FQDN"
       category    = "UserDefined"
       destination = "*.maven.org"
       status      = "Active"
     },
+    # Required for some prompt flow features where this public storage account is being used which is owned by Azure Open AI
     "openai001" = {
       type        = "FQDN"
       category    = "UserDefined"
       destination = "openaipublic.blob.core.windows.net"
+      status      = "Active"
+    },
+    "docker001" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "docker.io"
+      status      = "Active"
+    },
+    "docker002" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.docker.io"
+      status      = "Active"
+    },
+    "docker003" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "*.docker.com"
+      status      = "Active"
+    },
+    "docker004" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "production.cloudflare.docker.com"
+      status      = "Active"
+    },
+    "docker005" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "cdn.auth0.com"
+      status      = "Active"
+    },
+    "azure001" = {
+      type     = "ServiceTag"
+      category = "UserDefined"
+      destination = {
+        "serviceTag" : "AzureOpenDatasets",
+        "protocol" : "TCP",
+        "portRanges" : "443",
+        "action" : "Allow"
+      },
+      status = "Active"
+    },
+    "huggingface001" = {
+      type        = "FQDN"
+      category    = "UserDefined"
+      destination = "cdn-lfs.huggingface.co"
       status      = "Active"
     },
     "${azurerm_storage_account.storage.name}-table" = {
