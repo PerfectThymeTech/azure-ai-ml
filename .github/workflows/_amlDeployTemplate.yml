@@ -55,8 +55,8 @@ jobs:
         run: |
           DEPLOYMENT_NAME=dep-${BASE_NAME:0:28}
           az ml online-deployment create \
-            --resource-group ${{ vars.AZURE_RESOURCE_GROUP_NAME }} \
-            --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
+            --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
+            --workspace-name ${{ vars.ML_WORKSPACE_NAME }} \
             --endpoint-name ${{ inputs.machine_learning_online_endpoint_name }} \
             --name $DEPLOYMENT_NAME \
             --file ${{ github.workspace }}/code/ml/score-online/deployment.yml \
@@ -69,8 +69,8 @@ jobs:
         id: aml_online_endpoint_invoke
         run: |
           az ml online-endpoint invoke \
-            --resource-group ${{ vars.AZURE_RESOURCE_GROUP_NAME }} \
-            --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
+            --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
+            --workspace-name ${{ vars.ML_WORKSPACE_NAME }} \
             --name ${{ inputs.machine_learning_online_endpoint_name }} \
             --request-file ${{ github.workspace }}/code/ml/score-online/sample-request.json
 

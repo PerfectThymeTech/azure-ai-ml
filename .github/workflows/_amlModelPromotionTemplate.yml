@@ -66,8 +66,8 @@ jobs:
           mkdir "${{ github.workspace }}/model/" -p
 
           az ml job download \
-            --resource-group ${{ vars.AZURE_RESOURCE_GROUP_NAME }} \
-            --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
+            --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
+            --workspace-name ${{ vars.ML_WORKSPACE_NAME }} \
             --name ${{ inputs.machine_learning_job_name }} \
             --output-name ${{ inputs.machine_learning_job_output_name }} \
             --download-path ${{ github.workspace }}/download/
@@ -127,8 +127,8 @@ jobs:
         id: aml_model_register
         run: |
           az ml model create \
-            --resource-group ${{ vars.AZURE_RESOURCE_GROUP_NAME }} \
-            --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
+            --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
+            --workspace-name ${{ vars.ML_WORKSPACE_NAME }} \
             --file ${{ github.workspace }}/code/ml/model/model.yml \
             --tags source_job=${{ inputs.machine_learning_job_name }} source_output=${{ inputs.machine_learning_job_output_name }}
 

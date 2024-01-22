@@ -57,8 +57,8 @@ jobs:
         id: aml_dataset
         run: |
           az ml data create \
-            --resource-group ${{ vars.AZURE_RESOURCE_GROUP_NAME }} \
-            --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
+            --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
+            --workspace-name ${{ vars.ML_WORKSPACE_NAME }} \
             --file ${{ github.workspace }}/code/ml/data/diabetes_mltable.yml
 
       # Create Job
@@ -66,13 +66,13 @@ jobs:
         id: aml_job
         run: |
           az ml job create \
-            --resource-group ${{ vars.AZURE_RESOURCE_GROUP_NAME }} \
-            --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
+            --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
+            --workspace-name ${{ vars.ML_WORKSPACE_NAME }} \
             --name $JOB_NAME \
             --file ${{ github.workspace }}/code/ml/train/pipeline.yml \
             --stream
 
-          STUDIO_URL=$(az ml job show --name $JOB_NAME --resource-group ${{ vars.AZURE_RESOURCE_GROUP_NAME }} --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} --query services.Studio.endpoint | jq -r)
+          STUDIO_URL=$(az ml job show --name $JOB_NAME --resource-group ${{ vars.RESOURCE_GROUP_NAME }} --workspace-name ${{ vars.ML_WORKSPACE_NAME }} --query services.Studio.endpoint | jq -r)
 
           echo "studio_url=$STUDIO_URL" >> $GITHUB_OUTPUT
           echo "machine_learning_job_name=$JOB_NAME" >> $GITHUB_OUTPUT

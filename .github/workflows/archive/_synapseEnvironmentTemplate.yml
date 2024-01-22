@@ -8,10 +8,6 @@ on:
         type: string
         default: "dev"
         description: "Specifies the environment of the deployment."
-      subscription_id:
-        required: true
-        type: string
-        description: "Specifies the Azure subscription id."
       target_synapse_workspace_name:
         required: true
         type: string
@@ -26,9 +22,6 @@ on:
         default: false
         description: "Specifies whether the deployment job should be executed."
     secrets:
-      TENANT_ID:
-        required: true
-        description: "Specifies the tenant id of the deployment."
       CLIENT_ID:
         required: true
         description: "Specifies the client id."
@@ -83,7 +76,7 @@ jobs:
         id: azure_login
         uses: azure/login@v1
         with:
-          creds:  '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ inputs.subscription_id }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+          creds:  '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ vars.SUBSCRIPTION_ID }}","tenantId":"${{ vars.TENANT_ID }}"}'
           enable-AzPSSession: true
 
       # Install Required Modules
@@ -100,7 +93,7 @@ jobs:
         id: synapse_preprocessing
         run: |
           ./SynapseRolloutPreprocessing.ps1 `
-            -SubscriptionId "${{ inputs.subscription_id }}" `
+            -SubscriptionId "${{ vars.SUBSCRIPTION_ID }}" `
             -SynapseWorkspaceName "${{ inputs.target_synapse_workspace_name }}" `
             -CheckPastDaysOfPipelineRuns 1
         shell: pwsh
@@ -121,8 +114,8 @@ jobs:
           # OverrideArmParameters:
           DeleteArtifactsNotInTemplate: false
           Environment: "Azure Public"
-          tenantId: ${{ secrets.TENANT_ID }}
-          subscriptionId: ${{ inputs.subscription_id }}
+          tenantId: ${{ vars.TENANT_ID }}
+          subscriptionId: ${{ vars.SUBSCRIPTION_ID }}
           clientId: ${{ secrets.CLIENT_ID }}
           clientSecret: ${{ secrets.CLIENT_SECRET }}
           managedIdentity: false
@@ -132,7 +125,7 @@ jobs:
       #   id: synapse_postprocessing
       #   run: |
       #     ./SynapseRolloutPostprocessing.ps1 `
-      #       -SubscriptionId "${{ inputs.subscription_id }}" `
+      #       -SubscriptionId "${{ vars.SUBSCRIPTION_ID }}" `
       #       -SynapseWorkspaceName "${{ inputs.target_synapse_workspace_name }}" `
       #       -TriggerNames "${{ steps.synapse_preprocessing.outputs.triggerNames }}"
       #   shell: pwsh

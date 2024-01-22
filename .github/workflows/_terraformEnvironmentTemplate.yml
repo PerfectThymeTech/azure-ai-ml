@@ -23,14 +23,6 @@ on:
         required: true
         type: string
         description: "Specifies the working directory."
-      tenant_id:
-        required: true
-        type: string
-        description: "Specifies the tenant id of the deployment."
-      subscription_id:
-        required: true
-        type: string
-        description: "Specifies the subscription id of the deployment."
       export_terraform_outputs:
         required: false
         type: boolean
@@ -108,8 +100,8 @@ jobs:
     needs: [lint]
 
     env:
-      ARM_TENANT_ID: ${{ inputs.tenant_id }}
-      ARM_SUBSCRIPTION_ID: ${{ inputs.subscription_id }}
+      ARM_TENANT_ID: ${{ vars.TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       ARM_USE_OIDC: false
@@ -202,8 +194,8 @@ jobs:
     needs: [plan]
 
     env:
-      ARM_TENANT_ID: ${{ inputs.tenant_id }}
-      ARM_SUBSCRIPTION_ID: ${{ inputs.subscription_id }}
+      ARM_TENANT_ID: ${{ vars.TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       ARM_USE_OIDC: false
