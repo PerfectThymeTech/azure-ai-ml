@@ -15,7 +15,7 @@ on:
       - ".github/workflows/**"
       - "code/ml/**"
       - "infra/**"
-  
+
   release:
     types: [published]
 
