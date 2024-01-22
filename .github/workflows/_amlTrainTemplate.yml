@@ -69,7 +69,7 @@ jobs:
             --resource-group ${{ vars.AZURE_RESOURCE_GROUP_NAME }} \
             --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
             --name $JOB_NAME \
-            --file ${{ github.workspace }}/code/ml/pipeline-train.yml \
+            --file ${{ github.workspace }}/code/ml/train/pipeline.yml \
             --stream
 
           STUDIO_URL=$(az ml job show --name $JOB_NAME --resource-group ${{ vars.AZURE_RESOURCE_GROUP_NAME }} --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} --query services.Studio.endpoint | jq -r)
