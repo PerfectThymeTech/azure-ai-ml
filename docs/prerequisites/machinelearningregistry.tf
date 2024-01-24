@@ -17,7 +17,7 @@ resource "azapi_resource" "machine_learning_registry" {
           acrDetails = [
             {
               systemCreatedAcrAccount = {
-                acrAccountSku  = "Premium"
+                acrAccountSku = "Premium"
               }
               userCreatedAcrAccount = null
             }
