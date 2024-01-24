@@ -24,7 +24,7 @@ machine_learning_compute_instances = {
   # }
 }
 
-// Service enablement variables
+# Service enablement variables
 open_ai_enabled        = false
 search_service_enabled = false
 cognitive_services = {
