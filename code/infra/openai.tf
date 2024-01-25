@@ -11,8 +11,12 @@ resource "azurerm_cognitive_account" "cognitive_account" {
 
   custom_subdomain_name      = "${local.prefix}-cog001"
   dynamic_throttling_enabled = false
-  fqdns = [
-    trimsuffix(replace(azurerm_storage_account.storage.primary_blob_endpoint, "https://", ""), "/")
+  fqdns = var.search_service_enabled ? [
+    trimsuffix(replace(azurerm_storage_account.storage.primary_blob_endpoint, "https://", ""), "/"),
+    "${azurerm_search_service.search_service[0].name}.search.windows.net",
+    "management.azure.com"
+  ] : [
+    trimsuffix(replace(azurerm_storage_account.storage.primary_blob_endpoint, "https://", ""), "/"),
   ]
   kind               = "OpenAI"
   local_auth_enabled = true
