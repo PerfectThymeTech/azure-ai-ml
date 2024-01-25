@@ -1,8 +1,9 @@
 # General variables
-location    = "northeurope"
-environment = "dev"
-prefix      = "dpmlr"
-tags        = {}
+location           = "northeurope"
+location_secondary = "westeurope"
+environment        = "dev"
+prefix             = "dpmlr"
+tags               = {}
 
 # ML variables
 

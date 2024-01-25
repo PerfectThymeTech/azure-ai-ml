@@ -5,6 +5,12 @@ variable "location" {
   sensitive   = false
 }
 
+variable "location_secondary" {
+  description = "Specifies the secondary location for all Azure resources."
+  type        = string
+  sensitive   = false
+}
+
 variable "environment" {
   description = "Specifies the environment of the deployment."
   type        = string

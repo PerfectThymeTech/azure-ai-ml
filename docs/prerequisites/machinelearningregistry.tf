@@ -32,6 +32,27 @@ resource "azapi_resource" "machine_learning_registry" {
               userCreatedStorageAccount = null
             }
           ]
+        },
+        {
+          location = var.location_secondary
+          acrDetails = [
+            {
+              systemCreatedAcrAccount = {
+                acrAccountSku = "Premium"
+              }
+              userCreatedAcrAccount = null
+            }
+          ]
+          storageAccountDetails = [
+            {
+              systemCreatedStorageAccount = {
+                allowBlobPublicAccess    = false
+                storageAccountHnsEnabled = false
+                storageAccountType       = "Standard_GRS"
+              }
+              userCreatedStorageAccount = null
+            }
+          ]
         }
       ]
     }
