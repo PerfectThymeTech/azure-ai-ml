@@ -3,12 +3,14 @@ variable "location" {
   description = "Specifies the location for all Azure resources."
   type        = string
   sensitive   = false
+  nullable    = false
 }
 
 variable "environment" {
   description = "Specifies the environment of the deployment."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = "dev"
   validation {
     condition     = contains(["dev", "tst", "qa", "prd"], var.environment)
@@ -20,6 +22,7 @@ variable "prefix" {
   description = "Specifies the prefix for all resources created in this deployment."
   type        = string
   sensitive   = false
+  nullable    = false
   validation {
     condition     = length(var.prefix) >= 2 && length(var.prefix) <= 10
     error_message = "Please specify a prefix with more than two and less than 10 characters."
@@ -30,6 +33,7 @@ variable "tags" {
   description = "Specifies the tags that you want to apply to all resources."
   type        = map(string)
   sensitive   = false
+  nullable    = false
   default     = {}
 }
 
@@ -37,6 +41,7 @@ variable "resource_group_name" {
   description = "Specifies the name of the resource group in which all resources will be deployed."
   type        = string
   sensitive   = false
+  nullable    = false
   validation {
     condition     = length(var.resource_group_name) >= 2
     error_message = "Please specify a valid resource group name."
@@ -45,6 +50,7 @@ variable "resource_group_name" {
 
 // ML variables
 variable "machine_learning_compute_clusters" {
+  description = "Specifies the compute cluster to be created for the Machine Learning Workspace."
   type = map(object({
     vm_priority = optional(string, "Dedicated")
     vm_size     = optional(string, "Standard_DS2_v2")
@@ -54,9 +60,9 @@ variable "machine_learning_compute_clusters" {
       scale_down_nodes_after_idle_duration = optional(string, "PT60S")
     })
   }))
-  sensitive   = false
-  default     = {}
-  description = "Specifies the compute cluster to be created for the Machine Learning Workspace."
+  sensitive = false
+  nullable  = false
+  default   = {}
   validation {
     condition = alltrue([
       length([for vm_priority in values(var.machine_learning_compute_clusters)[*].vm_priority : vm_priority if !contains(["LowPriority", "Dedicated"], vm_priority)]) <= 0
@@ -66,13 +72,14 @@ variable "machine_learning_compute_clusters" {
 }
 
 variable "machine_learning_compute_instances" {
+  description = "Specifies the compute instances to be created for the Machine Learning Workspace."
   type = map(object({
     user_object_id = string
     vm_size        = optional(string, "Standard_DS2_v2")
   }))
-  sensitive   = false
-  default     = {}
-  description = "Specifies the compute instances to be created for the Machine Learning Workspace."
+  sensitive = false
+  nullable  = false
+  default   = {}
   # validation {
   #   condition = alltrue([
   #     length([for vm_priority in values(var.machine_learning_compute_clusters)[*].vm_priority : vm_priority if !contains(["LowPriority", "Dedicated"], vm_priority)]) <= 0
@@ -81,11 +88,28 @@ variable "machine_learning_compute_instances" {
   # }
 }
 
+variable "machine_learning_registries" {
+  description = "Specifies the compute instances to be created for the Machine Learning Workspace."
+  type = map(object({
+    resource_id = string
+  }))
+  sensitive = false
+  nullable  = false
+  default   = {}
+  validation {
+    condition = alltrue([
+      length([for machine_learning_registry in var.machine_learning_registries : machine_learning_registry if length(split("/", machine_learning_registry.resource_id)) != 9]) <= 0
+    ])
+    error_message = "Please specify a valid resource ID and container_name."
+  }
+}
+
 // Service enablement variables
 variable "search_service_enabled" {
   description = "Specifies whether Azure Cognitive Search should be deployed."
   type        = bool
   sensitive   = false
+  nullable    = false
   default     = false
 }
 
@@ -93,6 +117,7 @@ variable "open_ai_enabled" {
   description = "Specifies whether Azure Open AI should be deployed."
   type        = bool
   sensitive   = false
+  nullable    = false
   default     = false
 }
 
@@ -102,6 +127,7 @@ variable "cognitive_services" {
     sku_name = optional(string, "S0")
   }))
   sensitive   = false
+  nullable    = false
   default     = {}
   description = "Specifies the cognitive services deployed for this use-case."
   validation {
@@ -118,6 +144,7 @@ variable "subnet_id" {
   description = "Specifies the resource ID of the subnet used for the Private Endpoints."
   type        = string
   sensitive   = false
+  nullable    = false
   validation {
     condition     = length(split("/", var.subnet_id)) == 11
     error_message = "Please specify a valid resource ID."
@@ -128,6 +155,7 @@ variable "private_dns_zone_id_container_registry" {
   description = "Specifies the resource ID of the private DNS zone for the container registry. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_container_registry == "" || (length(split("/", var.private_dns_zone_id_container_registry)) == 9 && endswith(var.private_dns_zone_id_container_registry, "privatelink.azurecr.io"))
@@ -139,6 +167,7 @@ variable "private_dns_zone_id_key_vault" {
   description = "Specifies the resource ID of the private DNS zone for Azure Key Vault. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_key_vault == "" || (length(split("/", var.private_dns_zone_id_key_vault)) == 9 && endswith(var.private_dns_zone_id_key_vault, "privatelink.vaultcore.azure.net"))
@@ -150,6 +179,7 @@ variable "private_dns_zone_id_machine_learning_api" {
   description = "Specifies the resource ID of the private DNS zone for the Purview account. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_machine_learning_api == "" || (length(split("/", var.private_dns_zone_id_machine_learning_api)) == 9 && endswith(var.private_dns_zone_id_machine_learning_api, "privatelink.api.azureml.ms"))
@@ -161,6 +191,7 @@ variable "private_dns_zone_id_machine_learning_notebooks" {
   description = "Specifies the resource ID of the private DNS zone for the Purview account. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_machine_learning_notebooks == "" || (length(split("/", var.private_dns_zone_id_machine_learning_notebooks)) == 9 && endswith(var.private_dns_zone_id_machine_learning_notebooks, "privatelink.notebooks.azure.net"))
@@ -172,6 +203,7 @@ variable "private_dns_zone_id_blob" {
   description = "Specifies the resource ID of the private DNS zone for Azure Storage blob endpoints. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_blob == "" || (length(split("/", var.private_dns_zone_id_blob)) == 9 && endswith(var.private_dns_zone_id_blob, "privatelink.blob.core.windows.net"))
@@ -183,6 +215,7 @@ variable "private_dns_zone_id_file" {
   description = "Specifies the resource ID of the private DNS zone for Azure Storage file endpoints. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_file == "" || (length(split("/", var.private_dns_zone_id_file)) == 9 && endswith(var.private_dns_zone_id_file, "privatelink.file.core.windows.net"))
@@ -194,6 +227,7 @@ variable "private_dns_zone_id_table" {
   description = "Specifies the resource ID of the private DNS zone for Azure Storage table endpoints. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_table == "" || (length(split("/", var.private_dns_zone_id_table)) == 9 && endswith(var.private_dns_zone_id_table, "privatelink.table.core.windows.net"))
@@ -205,6 +239,7 @@ variable "private_dns_zone_id_queue" {
   description = "Specifies the resource ID of the private DNS zone for Azure Storage queue endpoints. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_queue == "" || (length(split("/", var.private_dns_zone_id_queue)) == 9 && endswith(var.private_dns_zone_id_queue, "privatelink.queue.core.windows.net"))
@@ -216,6 +251,7 @@ variable "private_dns_zone_id_search_service" {
   description = "Specifies the resource ID of the private DNS zone for Azure Cognitive Search endpoints. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_search_service == "" || (length(split("/", var.private_dns_zone_id_search_service)) == 9 && endswith(var.private_dns_zone_id_search_service, "privatelink.search.windows.net"))
@@ -227,6 +263,7 @@ variable "private_dns_zone_id_open_ai" {
   description = "Specifies the resource ID of the private DNS zone for Azure Open AI endpoints. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_open_ai == "" || (length(split("/", var.private_dns_zone_id_open_ai)) == 9 && endswith(var.private_dns_zone_id_open_ai, "privatelink.openai.azure.com"))
@@ -238,6 +275,7 @@ variable "private_dns_zone_id_cognitive_services" {
   description = "Specifies the resource ID of the private DNS zone for Azure Cognitive Service endpoints. Not required if DNS A-records get created via Azure Policy."
   type        = string
   sensitive   = false
+  nullable    = false
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_cognitive_services == "" || (length(split("/", var.private_dns_zone_id_cognitive_services)) == 9 && endswith(var.private_dns_zone_id_cognitive_services, "privatelink.cognitiveservices.azure.com"))
@@ -250,5 +288,6 @@ variable "data_platform_subscription_ids" {
   description = "Specifies the list of subscription IDs of your data platform."
   type        = list(string)
   sensitive   = false
+  nullable    = false
   default     = []
 }

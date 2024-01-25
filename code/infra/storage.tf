@@ -75,6 +75,13 @@ resource "azurerm_storage_account" "storage" {
         endpoint_tenant_id   = data.azurerm_client_config.current.tenant_id
       }
     }
+    dynamic "private_link_access" {
+      for_each = tolist(setunion(var.data_platform_subscription_ids, [data.azurerm_client_config.current.subscription_id]))
+      content {
+        endpoint_resource_id = "/subscriptions/${private_link_access.value}/resourcegroups/*/providers/Microsoft.MachineLearningServices/registries/*"
+        endpoint_tenant_id   = data.azurerm_client_config.current.tenant_id
+      }
+    }
   }
   nfsv3_enabled                 = false
   public_network_access_enabled = true
