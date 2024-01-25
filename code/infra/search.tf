@@ -15,7 +15,7 @@ resource "azurerm_search_service" "search_service" {
   hosting_mode                             = "default"
   local_authentication_enabled             = true
   partition_count                          = 1
-  public_network_access_enabled            = false # Can be disabled in production if users don't use the Azure Open AI studio 
+  public_network_access_enabled            = false # Can be disabled in production if users don't use the Azure Open AI studio
   replica_count                            = 1
   sku                                      = "basic"
 }
