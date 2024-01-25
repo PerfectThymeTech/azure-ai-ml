@@ -274,32 +274,6 @@ locals {
       }
     }
   }
-  ml_registry_machine_learning_workspace_outbound_rules = {
-    for key, value in var.machine_learning_registries: [
-      "${key}-amlregistry" = {
-        type     = "PrivateEndpoint"
-        category = "UserDefined"
-        status   = "Active"
-        destination = {
-          serviceResourceId = data.azapi_resource.machine_learning_registry[key].id
-          subresourceTarget = "amlregistry"
-          sparkEnabled      = true
-          sparkStatus       = "Active"
-        }
-      },
-      "${key}-blob" = {
-        type     = "PrivateEndpoint"
-        category = "UserDefined"
-        status   = "Active"
-        destination = {
-          serviceResourceId = jsondecode(data.azapi_resource.machine_learning_registry[key].output).properties.regionDetails[0].storageAccountDetails[0].systemCreatedStorageAccount.armResourceId.resourceId
-          subresourceTarget = "blob"
-          sparkEnabled      = true
-          sparkStatus       = "Active"
-        }
-      }
-    ]
-  }
   search_service_machine_learning_workspace_outbound_rules = {
     "${var.search_service_enabled ? azurerm_search_service.search_service[0].name : ""}-searchService" = {
       type     = "PrivateEndpoint"
