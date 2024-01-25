@@ -33,7 +33,6 @@ resource "azapi_update_resource" "cognitive_account_update" {
   count = var.open_ai_enabled ? 1 : 0
 
   type        = "Microsoft.CognitiveServices/accounts@2023-10-01-preview"
-  name        = "${local.prefix}-aoai001"
   resource_id = azurerm_cognitive_account.cognitive_account_openai[0].id
 
   body = jsonencode({

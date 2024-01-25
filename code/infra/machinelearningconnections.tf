@@ -24,7 +24,7 @@ resource "azapi_resource" "machine_learning_workspace_connection_openai" {
   count = var.open_ai_enabled ? 1 : 0
 
   type      = "Microsoft.MachineLearningServices/workspaces/connections@2023-06-01-preview"
-  name      = azurerm_cognitive_account.cognitive_account[0].name
+  name      = azurerm_cognitive_account.cognitive_account_openai[0].name
   parent_id = azurerm_machine_learning_workspace.machine_learning_workspace.id
 
   body = jsonencode({
