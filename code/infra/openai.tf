@@ -46,7 +46,7 @@ resource "azapi_update_resource" "cognitive_account_update" {
 resource "azapi_resource" "cognitive_service_open_ai_model_ada" {
   count = var.open_ai_enabled ? 1 : 0
 
-  type      = "Microsoft.CognitiveServices/accounts/deployments@2023-05-01"
+  type      = "Microsoft.CognitiveServices/accounts/deployments@2023-10-01-preview"
   name      = "text-embedding-ada-002"
   parent_id = azurerm_cognitive_account.cognitive_account_openai[0].id
 
