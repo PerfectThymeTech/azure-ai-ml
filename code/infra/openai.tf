@@ -13,8 +13,7 @@ resource "azurerm_cognitive_account" "cognitive_account_openai" {
   dynamic_throttling_enabled = false
   fqdns = var.search_service_enabled ? [
     trimsuffix(replace(azurerm_storage_account.storage.primary_blob_endpoint, "https://", ""), "/"),
-    "${azurerm_search_service.search_service[0].name}.search.windows.net",
-    "management.azure.com"
+    "${azurerm_search_service.search_service[0].name}.search.windows.net"
     ] : [
     trimsuffix(replace(azurerm_storage_account.storage.primary_blob_endpoint, "https://", ""), "/"),
   ]
