@@ -36,7 +36,7 @@ cognitive_services = {
 }
 
 # Network variables
-subnet_id                                      = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-dpml-network-rg/providers/Microsoft.Network/virtualNetworks/mycrp-prd-dpml-vnet001/subnets/ServicesSubnet"
+subnet_id = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-dpml-network-rg/providers/Microsoft.Network/virtualNetworks/mycrp-prd-dpml-vnet001/subnets/ServicesSubnet"
 
 # DNS variables
 private_dns_zone_id_blob                       = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"
