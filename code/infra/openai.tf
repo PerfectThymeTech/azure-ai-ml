@@ -2,7 +2,7 @@ resource "azurerm_cognitive_account" "cognitive_account_openai" {
   count = var.open_ai_enabled ? 1 : 0
 
   name                = "${local.prefix}-aoai001"
-  location            = var.location
+  location            = var.location_openai
   resource_group_name = data.azurerm_resource_group.resource_group.name
   tags                = var.tags
   identity {
