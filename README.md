@@ -4,6 +4,6 @@ Repository to showcase how to implement enterprise ready ML &amp; AI use-cases o
 
 ## Architecture
 
-The following architecture is created by this respository:
+The following infrastructure is created by this respository:
 
 ![Architecture](/docs/architecture.png)
