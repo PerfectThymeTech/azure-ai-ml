@@ -1,7 +1,7 @@
 
 resource "azurerm_monitor_private_link_scope" "mpls" {
   name                = "${local.prefix}-ampls001"
-  resource_group_name = azurerm_resource_group.logging_rg.name
+  resource_group_name = data.azurerm_resource_group.resource_group.name
   tags                = var.tags
 }
 
