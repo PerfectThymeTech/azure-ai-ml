@@ -77,9 +77,9 @@ resource "azurerm_role_assignment" "uai_role_assignment_search_service_contribut
   principal_id         = azurerm_user_assigned_identity.user_assigned_identity.principal_id
 }
 
-resource "azurerm_role_assignment" "uai_role_assignment_cognitive_account_contributor" {
+resource "azurerm_role_assignment" "uai_role_assignment_cognitive_account_openai_contributor" {
   count                = var.open_ai_enabled ? 1 : 0
-  scope                = azurerm_cognitive_account.cognitive_account[0].id
+  scope                = azurerm_cognitive_account.cognitive_account_openai[0].id
   role_definition_name = "Contributor"
   principal_id         = azurerm_user_assigned_identity.user_assigned_identity.principal_id
 }

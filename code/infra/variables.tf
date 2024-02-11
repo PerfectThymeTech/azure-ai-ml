@@ -5,6 +5,12 @@ variable "location" {
   sensitive   = false
 }
 
+variable "location_openai" {
+  description = "Specifies the location for Azure Open AI."
+  type        = string
+  sensitive   = false
+}
+
 variable "environment" {
   description = "Specifies the environment of the deployment."
   type        = string
@@ -43,7 +49,7 @@ variable "resource_group_name" {
   }
 }
 
-// ML variables
+# ML variables
 variable "machine_learning_compute_clusters" {
   type = map(object({
     vm_priority = optional(string, "Dedicated")
@@ -81,7 +87,7 @@ variable "machine_learning_compute_instances" {
   # }
 }
 
-// Service enablement variables
+# Service enablement variables
 variable "search_service_enabled" {
   description = "Specifies whether Azure Cognitive Search should be deployed."
   type        = bool
@@ -113,7 +119,7 @@ variable "cognitive_services" {
   }
 }
 
-// Network variables
+# Network variables
 variable "subnet_id" {
   description = "Specifies the resource ID of the subnet used for the Private Endpoints."
   type        = string
@@ -124,6 +130,7 @@ variable "subnet_id" {
   }
 }
 
+# DNS variables
 variable "private_dns_zone_id_container_registry" {
   description = "Specifies the resource ID of the private DNS zone for the container registry. Not required if DNS A-records get created via Azure Policy."
   type        = string
@@ -241,6 +248,50 @@ variable "private_dns_zone_id_cognitive_services" {
   default     = ""
   validation {
     condition     = var.private_dns_zone_id_cognitive_services == "" || (length(split("/", var.private_dns_zone_id_cognitive_services)) == 9 && endswith(var.private_dns_zone_id_cognitive_services, "privatelink.cognitiveservices.azure.com"))
+    error_message = "Please specify a valid resource ID for the private DNS Zone."
+  }
+}
+
+variable "private_dns_zone_id_monitor" {
+  description = "Specifies the resource ID of the private DNS zone for Azure Monitor. Not required if DNS A-records get created via Azue Policy."
+  type        = string
+  sensitive   = false
+  default     = ""
+  validation {
+    condition     = var.private_dns_zone_id_monitor == "" || (length(split("/", var.private_dns_zone_id_monitor)) == 9 && endswith(var.private_dns_zone_id_monitor, "privatelink.monitor.azure.com"))
+    error_message = "Please specify a valid resource ID for the private DNS Zone."
+  }
+}
+
+variable "private_dns_zone_id_oms_opinsights" {
+  description = "Specifies the resource ID of the private DNS zone for Azure Monitor OMS Insights. Not required if DNS A-records get created via Azue Policy."
+  type        = string
+  sensitive   = false
+  default     = ""
+  validation {
+    condition     = var.private_dns_zone_id_oms_opinsights == "" || (length(split("/", var.private_dns_zone_id_oms_opinsights)) == 9 && endswith(var.private_dns_zone_id_oms_opinsights, "privatelink.oms.opinsights.azure.com"))
+    error_message = "Please specify a valid resource ID for the private DNS Zone."
+  }
+}
+
+variable "private_dns_zone_id_ods_opinsights" {
+  description = "Specifies the resource ID of the private DNS zone for Azure Monitor ODS Insights. Not required if DNS A-records get created via Azue Policy."
+  type        = string
+  sensitive   = false
+  default     = ""
+  validation {
+    condition     = var.private_dns_zone_id_ods_opinsights == "" || (length(split("/", var.private_dns_zone_id_ods_opinsights)) == 9 && endswith(var.private_dns_zone_id_ods_opinsights, "privatelink.ods.opinsights.azure.com"))
+    error_message = "Please specify a valid resource ID for the private DNS Zone."
+  }
+}
+
+variable "private_dns_zone_id_automation_agents" {
+  description = "Specifies the resource ID of the private DNS zone for Azure Monitor Automation Agents. Not required if DNS A-records get created via Azue Policy."
+  type        = string
+  sensitive   = false
+  default     = ""
+  validation {
+    condition     = var.private_dns_zone_id_automation_agents == "" || (length(split("/", var.private_dns_zone_id_automation_agents)) == 9 && endswith(var.private_dns_zone_id_automation_agents, "privatelink.agentsvc.azure-automation.net"))
     error_message = "Please specify a valid resource ID for the private DNS Zone."
   }
 }

@@ -10,14 +10,14 @@ resource "azurerm_search_service" "search_service" {
   }
 
   allowed_ips                              = []
-  authentication_failure_mode              = "http403"
+  authentication_failure_mode              = "http401WithBearerChallenge"
   customer_managed_key_enforcement_enabled = false
   hosting_mode                             = "default"
   local_authentication_enabled             = true
   partition_count                          = 1
-  public_network_access_enabled            = false
+  public_network_access_enabled            = false # Can be disabled in production if users don't use the Azure Open AI studio
   replica_count                            = 1
-  sku                                      = "standard"
+  sku                                      = "basic"
 }
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories_search_service" {

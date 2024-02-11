@@ -1,6 +1,20 @@
 # Azure Enterprise AI & ML
 
-This repository showcases how to do MLOps with Azure Machine Learning and the latest Azure CLI v2. The project showcases how project teams can create a secure machine learning environment using Infrastructure as Code (Terrform), how to structure their machine learning projects in git, how to build reusable components and pipelines and how to productionize these projects. The repository covers the following project phases:
+Repository to showcase how to implement enterprise ready ML &amp; AI use-cases on Azure.
+
+## Architecture
+
+The following infrastructure is created by this respository:
+
+![Architecture](/docs/architecture.png)
+
+The image above depicts the architecture of a single environment (dev/test/prod) within a Cloud Scale Data Landing Zone. Core network resources such as vnets, NSGs and Route Tables ae usually provided by a platform team and are used to connect the Azure PaaS services to the corporate network. Shared data lakes within the data landing zone are also used by the data science project team to consume data and produce new data products that can be shared with other teams internally. A shared application layer within the data landing zone can be used by the team to make use of other tools such as Azure Databricks for data engineering purposes.
+
+All environment of such a data science setup should reside within the production data landing zone. Different resource groups within the production Data Landing Zone should be used to isolate them from one another. This is necessary, as data science teams usually require access to real production data for their use cases. Copying production data into a lower environment is usually also a problematic process or obfuscates the data significantly making it impossible to create meaningful results for data scientists.
+
+## MLOps
+
+This repository also showcases how to do MLOps with Azure Machine Learning and the latest Azure CLI v2. The project showcases how project teams can create a secure machine learning environment using Infrastructure as Code (Terrform), how to structure their machine learning projects in git, how to build reusable components and pipelines and how to productionize these projects. The repository covers the following project phases:
 
 1. Data Discovery,
 2. Experimentation,
@@ -8,21 +22,13 @@ This repository showcases how to do MLOps with Azure Machine Learning and the la
 4. Deployment and
 5. Monitoring.
 
-## Architecture
-
-![Architecture](/docs/images/architecture_single_environment.png)
-
-The image above depicts the architecture of a single environment (dev/test/prod) within a Cloud Scale Data Landing Zone. Core network resources such as vnets, NSGs and Route Tables ae usually provided by a platform team and are used to connect the Azure PaaS services to the corporate network. Shared data lakes within the data landing zone are also used by the data science project team to consume data and produce new data products that can be shared with other teams internally. A shared application layer within the data landing zone can be used by the team to make use of other tools such as Azure Databricks for data engineering purposes.
-
-All environment of such a data science setup should reside within the production data landing zone. Different resource groups within the production Data Landing Zone should be used to isolate them from one another. This is necessary, as data science teams usually require access to real production data for their use cases. Copying production data into a lower environment is usually also a problematic process or obfuscates the data significantly making it impossible to create meaningful results for data scientists.
-
-## Workflow
+### Workflow
 
 ![Data Science Workflow](/docs/images/workflow.png)
 
 The workflow diagram above shows the end-to-end lifecycle of a data science process as well as the iterative development processes that need to be followed.
 
-## Model Promotion Scenarios
+### Model Promotion Scenarios
 
 ![Model Promotion Process](/docs/images/model_promotion_scenarios.png)
 
@@ -30,7 +36,7 @@ In order to save cost and not retrain models constantly, Machine learning models
 
 Other scenarios require the model to be hosted in the analytical data platform. Within the data platform, the model might be promoted into in a container platform to serve real-time requests via REST API Calls or be promoted as part of a batch process to score data based on a schedule or other kinds of triggers that kickstart the processing of a larger data frame. Similar to the application scenarios, Azure ML Online Endpoints, AKS, Azure Web Apps or Azure Container Apps can be used for hosting the model to serve REST API calls. For batch scenarios, the model may be promoted as part of an Azure ML Batch Endpoint or to a database environment to score data in batches directly within the database server.
 
-## Model Promotion Architecture
+### Model Promotion Architecture
 
 In this repository, we are focussing on the scenario, where a real-time endpoint should be hosted in the data platform environment. Therefore, we are looking at the scenario, how a model trained in an Azure Machine Learning workspace in the dev environment can be promoted and rolled out into a higher environment using GitHub Actions, the Azure ML SDK v2 in combination with Bicep IaC.
 
