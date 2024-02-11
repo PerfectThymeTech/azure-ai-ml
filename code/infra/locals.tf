@@ -110,7 +110,7 @@ locals {
     "vscode006" = {
       type        = "FQDN"
       category    = "UserDefined"
-      destination = "raw.githubusercontent.com" // "/microsoft/vscode-tools-for-ai/master/azureml_remote_websocket_server/*"
+      destination = "raw.githubusercontent.com" # "/microsoft/vscode-tools-for-ai/master/azureml_remote_websocket_server/*"
       status      = "Active"
     },
     "vscode007" = {
@@ -269,6 +269,17 @@ locals {
       destination = {
         serviceResourceId = azurerm_storage_account.storage.id
         subresourceTarget = "queue"
+        sparkEnabled      = true
+        sparkStatus       = "Active"
+      }
+    },
+    "${azurerm_monitor_private_link_scope.mpls.name}-queue" = {
+      type     = "PrivateEndpoint"
+      category = "UserDefined"
+      status   = "Active"
+      destination = {
+        serviceResourceId = azurerm_monitor_private_link_scope.mpls.id
+        subresourceTarget = "azuremonitor"
         sparkEnabled      = true
         sparkStatus       = "Active"
       }
