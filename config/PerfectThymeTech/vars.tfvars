@@ -25,8 +25,8 @@ machine_learning_compute_instances = {
 }
 
 // Service enablement variables
-open_ai_enabled        = false
-search_service_enabled = false
+open_ai_enabled        = true
+search_service_enabled = true
 cognitive_services = {
   # "frmrcg" = {
   #   kind     = "FormRecognizer"
