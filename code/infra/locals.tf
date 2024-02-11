@@ -110,7 +110,7 @@ locals {
     "vscode006" = {
       type        = "FQDN"
       category    = "UserDefined"
-      destination = "raw.githubusercontent.com" // "/microsoft/vscode-tools-for-ai/master/azureml_remote_websocket_server/*"
+      destination = "raw.githubusercontent.com" # "/microsoft/vscode-tools-for-ai/master/azureml_remote_websocket_server/*"
       status      = "Active"
     },
     "vscode007" = {
@@ -272,7 +272,18 @@ locals {
         sparkEnabled      = true
         sparkStatus       = "Active"
       }
-    }
+    },
+    # "${azurerm_monitor_private_link_scope.mpls.name}-queue" = { # Not supported in AML today
+    #   type     = "PrivateEndpoint"
+    #   category = "UserDefined"
+    #   status   = "Active"
+    #   destination = {
+    #     serviceResourceId = azurerm_monitor_private_link_scope.mpls.id
+    #     subresourceTarget = "azuremonitor"
+    #     sparkEnabled      = true
+    #     sparkStatus       = "Active"
+    #   }
+    # }
   }
   search_service_machine_learning_workspace_outbound_rules = {
     "${var.search_service_enabled ? azurerm_search_service.search_service[0].name : ""}-searchService" = {

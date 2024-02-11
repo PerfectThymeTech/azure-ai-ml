@@ -6,7 +6,7 @@ prefix              = "dpml"
 tags                = {}
 resource_group_name = "myprod-dev-analytics-rg"
 
-// ML variables
+# ML variables
 machine_learning_compute_clusters = {
   # "cpu001" = {
   #   vm_priority = "Dedicated"
@@ -25,7 +25,7 @@ machine_learning_compute_instances = {
   # }
 }
 
-// Service enablement variables
+# Service enablement variables
 open_ai_enabled        = true
 search_service_enabled = true
 cognitive_services = {
@@ -35,8 +35,10 @@ cognitive_services = {
   # }
 }
 
-// Network variables
-subnet_id                                      = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-logic-network-rg/providers/Microsoft.Network/virtualNetworks/mycrp-prd-logic-vnet001/subnets/PeSubnet"
+# Network variables
+subnet_id = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-dpml-network-rg/providers/Microsoft.Network/virtualNetworks/mycrp-prd-dpml-vnet001/subnets/ServicesSubnet"
+
+# DNS variables
 private_dns_zone_id_blob                       = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"
 private_dns_zone_id_file                       = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net"
 private_dns_zone_id_table                      = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net"
@@ -48,4 +50,10 @@ private_dns_zone_id_machine_learning_notebooks = "/subscriptions/8f171ff9-2b5b-4
 private_dns_zone_id_search_service             = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.search.windows.net"
 private_dns_zone_id_open_ai                    = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.openai.azure.com"
 private_dns_zone_id_cognitive_services         = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.cognitiveservices.azure.com"
-data_platform_subscription_ids                 = []
+private_dns_zone_id_monitor                    = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.monitor.azure.com"
+private_dns_zone_id_oms_opinsights             = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.oms.opinsights.azure.com"
+private_dns_zone_id_ods_opinsights             = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.ods.opinsights.azure.com"
+private_dns_zone_id_automation_agents          = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.agentsvc.azure-automation.net"
+
+# Other resources
+data_platform_subscription_ids = []
