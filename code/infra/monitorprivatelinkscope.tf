@@ -32,7 +32,7 @@ resource "azurerm_private_endpoint" "mpls_private_endpoint" {
     private_connection_resource_id = azurerm_monitor_private_link_scope.mpls.id
     subresource_names              = ["azuremonitor"]
   }
-  subnet_id = azapi_resource.subnet_services.id
+  subnet_id = data.azurerm_subnet.subnet.id
   private_dns_zone_group {
     name = "${azurerm_monitor_private_link_scope.mpls.name}-arecord"
     private_dns_zone_ids = [
