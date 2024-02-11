@@ -1,4 +1,4 @@
-name: Terraform Deployment
+name: Terraform
 on:
   push:
     branches:
@@ -17,9 +17,9 @@ on:
       - ".github/workflows/terraform.yml"
 
 jobs:
-  terraform:
+  terraform_dev:
     uses: ./.github/workflows/_terraformEnvironmentTemplate.yml
-    name: "Terraform Deployment"
+    name: "Deployment - Dev"
     with:
       environment: "dev"
       config: "PerfectThymeTech"
