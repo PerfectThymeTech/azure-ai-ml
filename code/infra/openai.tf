@@ -67,34 +67,6 @@ resource "azapi_resource" "cognitive_service_open_ai_model_ada" {
   })
 }
 
-resource "azapi_resource" "cognitive_service_open_ai_model_gtt_35" {
-  count = var.open_ai_enabled ? 1 : 0
-
-  type      = "Microsoft.CognitiveServices/accounts/deployments@2023-05-01"
-  name      = "gpt-35-turbo"
-  parent_id = azurerm_cognitive_account.cognitive_account_openai[0].id
-
-  body = jsonencode({
-    sku = {
-      name     = "Standard"
-      capacity = 60
-    }
-    properties = {
-      model = {
-        format  = "OpenAI"
-        name    = "gpt-35-turbo"
-        version = "0301"
-      }
-      raiPolicyName        = "Microsoft.Default"
-      versionUpgradeOption = "OnceNewDefaultVersionAvailable"
-    }
-  })
-
-  depends_on = [
-    azapi_resource.cognitive_service_open_ai_model_ada
-  ]
-}
-
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories_cognitive_service" {
   count = var.open_ai_enabled ? 1 : 0
 
