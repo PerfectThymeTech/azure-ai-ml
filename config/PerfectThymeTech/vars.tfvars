@@ -1,5 +1,6 @@
 # General variables
 location            = "northeurope"
+location_openai     = "francecentral"
 environment         = "dev"
 prefix              = "dpml"
 tags                = {}
