@@ -6,6 +6,22 @@ prefix              = "dpml"
 tags                = {}
 resource_group_name = "myprod-dev-analytics-rg"
 
+# Storage variables
+datalake_containers = []
+
+# Synapse variables
+synapse_workspace_github_repo = {
+  account_name    = "PerfectThymeTech"
+  branch_name     = "main"
+  git_url         = "https://github.com"
+  repository_name = "azure-ai-ml"
+  root_folder     = "/code/synapse"
+}
+synapse_workspace_admin_object_id      = ""
+synapse_workspace_integration_runtimes = {}
+synapse_workspace_spark_pools          = {}
+synapse_workspace_sql_pools            = {}
+
 # ML variables
 machine_learning_compute_clusters = {
   # "cpu001" = {
@@ -50,6 +66,8 @@ private_dns_zone_id_machine_learning_notebooks = "/subscriptions/8f171ff9-2b5b-4
 private_dns_zone_id_search_service             = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.search.windows.net"
 private_dns_zone_id_open_ai                    = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.openai.azure.com"
 private_dns_zone_id_cognitive_services         = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.cognitiveservices.azure.com"
+private_dns_zone_id_synapse_dev                = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.dev.azuresynapse.net"
+private_dns_zone_id_synapse_sql                = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.sql.azuresynapse.net"
 private_dns_zone_id_monitor                    = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.monitor.azure.com"
 private_dns_zone_id_oms_opinsights             = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.oms.opinsights.azure.com"
 private_dns_zone_id_ods_opinsights             = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/mycrp-prd-global-dns/providers/Microsoft.Network/privateDnsZones/privatelink.ods.opinsights.azure.com"
