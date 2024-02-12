@@ -56,7 +56,7 @@ resource "azurerm_synapse_managed_private_endpoint" "synapse_managed_private_end
   ]
 }
 
-resource "null_resource" "synapse_managed_private_endpoint_datalake_approval" {
+resource "null_resource" "synapse_managed_private_endpoint_storage_approval" {
   triggers = {
     run_once = "true"
   }
