@@ -43,3 +43,26 @@ resource "null_resource" "synapse_managed_private_endpoint_datalake_approval" {
     command     = "./Approve-ManagedPrivateEndpoint.ps1 -ResourceId '${azurerm_storage_account.datalake.id}' -SynapseWorkspaceName '${azurerm_synapse_workspace.synapse_workspace.name}' -SynapseManagedPrivateEndpointName '${azurerm_synapse_managed_private_endpoint.synapse_managed_private_endpoint_datalake.name}'"
   }
 }
+
+resource "azurerm_synapse_managed_private_endpoint" "synapse_managed_private_endpoint_storage" {
+  synapse_workspace_id = azurerm_synapse_workspace.synapse_workspace.id
+  name                 = "AzureMachineLearningStorage"
+
+  target_resource_id = azurerm_storage_account.storage.id
+  subresource_name   = "blob"
+
+  depends_on = [
+    azurerm_private_endpoint.synapse_workspace_private_endpoint_dev,
+  ]
+}
+
+resource "null_resource" "synapse_managed_private_endpoint_datalake_approval" {
+  triggers = {
+    run_once = "true"
+  }
+  provisioner "local-exec" {
+    working_dir = "${path.module}/../scripts/"
+    interpreter = ["pwsh", "-Command"]
+    command     = "./Approve-ManagedPrivateEndpoint.ps1 -ResourceId '${azurerm_storage_account.storage.id}' -SynapseWorkspaceName '${azurerm_synapse_workspace.synapse_workspace.name}' -SynapseManagedPrivateEndpointName '${azurerm_synapse_managed_private_endpoint.synapse_managed_private_endpoint_storage.name}'"
+  }
+}

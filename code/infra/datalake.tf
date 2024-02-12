@@ -125,7 +125,8 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_gen2_filesystem_
   }
 
   depends_on = [
-    azurerm_role_assignment.current_roleassignment_datalake
+    azurerm_role_assignment.current_roleassignment_datalake,
+    azurerm_private_endpoint.datalake_private_endpoint_dfs,
   ]
 }
 
@@ -138,7 +139,8 @@ resource "azurerm_storage_container" "datalake_containers" {
   container_access_type = "private"
 
   depends_on = [
-    azurerm_role_assignment.current_roleassignment_datalake
+    azurerm_role_assignment.current_roleassignment_datalake,
+    azurerm_private_endpoint.datalake_private_endpoint_blob,
   ]
 }
 
@@ -160,6 +162,31 @@ resource "azurerm_private_endpoint" "datalake_private_endpoint_blob" {
     for_each = var.private_dns_zone_id_blob == "" ? [] : [1]
     content {
       name = "${azurerm_storage_account.datalake.name}-blob-arecord"
+      private_dns_zone_ids = [
+        var.private_dns_zone_id_blob
+      ]
+    }
+  }
+}
+
+resource "azurerm_private_endpoint" "datalake_private_endpoint_dfs" {
+  name                = "${azurerm_storage_account.datalake.name}-dfs-pe"
+  location            = var.location
+  resource_group_name = azurerm_storage_account.datalake.resource_group_name
+  tags                = var.tags
+
+  custom_network_interface_name = "${azurerm_storage_account.datalake.name}-dfs-nic"
+  private_service_connection {
+    name                           = "${azurerm_storage_account.datalake.name}-dfs-pe"
+    is_manual_connection           = false
+    private_connection_resource_id = azurerm_storage_account.datalake.id
+    subresource_names              = ["dfs"]
+  }
+  subnet_id = data.azurerm_subnet.subnet.id
+  dynamic "private_dns_zone_group" {
+    for_each = var.private_dns_zone_id_blob == "" ? [] : [1]
+    content {
+      name = "${azurerm_storage_account.datalake.name}-dfs-arecord"
       private_dns_zone_ids = [
         var.private_dns_zone_id_blob
       ]
