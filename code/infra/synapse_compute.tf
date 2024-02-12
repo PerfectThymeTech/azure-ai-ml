@@ -42,9 +42,6 @@ resource "azurerm_synapse_spark_pool" "spark_pool" {
   lifecycle {
     ignore_changes = all
   }
-  depends_on = [
-    time_sleep.sleep_workspace
-  ]
 }
 
 # Integration runtimes

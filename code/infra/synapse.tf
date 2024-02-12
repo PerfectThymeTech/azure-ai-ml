@@ -34,10 +34,6 @@ resource "azurerm_synapse_workspace_aad_admin" "synapse_workspace_aad_admin" {
   login                = "AzureAD Admin"
   object_id            = var.synapse_workspace_admin_object_id
   tenant_id            = data.azurerm_client_config.current.tenant_id
-
-  depends_on = [
-    azurerm_synapse_workspace_key.synapse_workspace_key
-  ]
 }
 
 resource "azurerm_synapse_workspace_sql_aad_admin" "synapse_workspace_sql_aad_admin" {
@@ -45,10 +41,6 @@ resource "azurerm_synapse_workspace_sql_aad_admin" "synapse_workspace_sql_aad_ad
   login                = "AzureAD Admin"
   object_id            = var.synapse_workspace_admin_object_id
   tenant_id            = data.azurerm_client_config.current.tenant_id
-
-  depends_on = [
-    azurerm_synapse_workspace_key.synapse_workspace_key
-  ]
 }
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories_synapse_workspace" {
