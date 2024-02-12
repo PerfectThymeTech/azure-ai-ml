@@ -190,7 +190,7 @@ variable "synapse_workspace_sql_pool_maintenance_windows" {
 
 # ML variables
 variable "machine_learning_compute_clusters" {
-  type = map(optional(object({
+  type = map(object({
     vm_priority = optional(string, "Dedicated")
     vm_size     = optional(string, "Standard_DS2_v2")
     scale = optional(object({
@@ -198,7 +198,7 @@ variable "machine_learning_compute_clusters" {
       max_node_count                       = optional(any, 3)
       scale_down_nodes_after_idle_duration = optional(string, "PT60S")
     }), {})
-  }), {}))
+  }))
   sensitive   = false
   default     = {}
   description = "Specifies the compute cluster to be created for the Machine Learning Workspace."
