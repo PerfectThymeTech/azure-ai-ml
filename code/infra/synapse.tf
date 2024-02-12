@@ -15,7 +15,7 @@ resource "azurerm_synapse_workspace" "synapse_workspace" {
   managed_virtual_network_enabled      = true
   public_network_access_enabled        = true
   purview_id                           = null
-  storage_data_lake_gen2_filesystem_id = azurerm_storage_data_lake_gen2_filesystem.storage_data_lake_gen2_filesystem_synapse.id
+  storage_data_lake_gen2_filesystem_id = azurerm_storage_data_lake_gen2_filesystem.data_lake_gen2_filesystem_synapse.id
 
   dynamic "github_repo" {
     for_each = length(compact(values(var.synapse_workspace_github_repo))) == 5 ? [var.synapse_workspace_github_repo] : []
