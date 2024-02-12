@@ -6,6 +6,9 @@ locals {
     virtual_network_name = split("/", var.subnet_id)[8]
     name                 = split("/", var.subnet_id)[10]
   }
+  
+  default_integration_runtime_name        = "AutoResolveIntegrationRuntime"
+  linked_service_integration_runtime_name = length(module.synapse.synapse_integration_runtime_ids) > 0 ? keys(module.synapse.synapse_integration_runtime_ids)[0] : local.default_integration_runtime_name
 
   default_machine_learning_workspace_image_builder_compute_name = "imagebuilder001"
   default_machine_learning_workspace_outbound_rules = {
