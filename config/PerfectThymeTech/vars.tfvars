@@ -17,7 +17,7 @@ synapse_workspace_github_repo = {
   repository_name = "azure-ai-ml"
   root_folder     = "/code/synapse"
 }
-synapse_workspace_admin_object_id      = ""
+synapse_workspace_admin_object_id      = "00a0fdc7-9951-468f-a69d-804fd8f6f86d"
 synapse_workspace_integration_runtimes = {}
 synapse_workspace_spark_pools          = {}
 synapse_workspace_sql_pools            = {}
