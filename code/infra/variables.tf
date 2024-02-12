@@ -87,11 +87,11 @@ variable "synapse_workspace_admin_object_id" {
 
 variable "synapse_workspace_integration_runtimes" {
   description = "Specifies the integration runtimes to be created for the Synapse workspace."
-  type = map(optional(object({
+  type = map(object({
     compute_type     = optional(string, "General")
     core_count       = optional(number, 8),
     time_to_live_min = optional(number, 0),
-  }), {}))
+  }))
   sensitive = false
   nullable  = false
   default   = {}
@@ -106,7 +106,7 @@ variable "synapse_workspace_integration_runtimes" {
 
 variable "synapse_workspace_spark_pools" {
   description = "Specifies the spark pools to be created for the Synapse workspace."
-  type = map(optional(object({
+  type = map(object({
     node_size_family = optional(string, "MemoryOptimized")
     node_size        = optional(string, "Small")
     scale = optional(object({
@@ -126,7 +126,7 @@ variable "synapse_workspace_spark_pools" {
       max_executors = optional(any, null)
     }), {})
     library_requirement = optional(string, "")
-  }), {}))
+  }))
   sensitive = false
   nullable  = false
   default   = {}
@@ -142,10 +142,10 @@ variable "synapse_workspace_spark_pools" {
 
 variable "synapse_workspace_sql_pools" {
   description = "Specifies the sql pools to be created for the Synapse workspace."
-  type = map(optional(object({
+  type = map(object({
     sku_name  = optional(string, "DW100c")
     collation = optional(string, "SQL_LATIN1_GENERAL_CP1_CI_AS")
-  }), {}))
+  }))
   sensitive = false
   nullable  = false
   default   = {}
