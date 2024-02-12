@@ -116,7 +116,7 @@ resource "azurerm_storage_management_policy" "datalake_management_policy" {
   }
 }
 
-resource "azurerm_storage_data_lake_gen2_filesystem" "datalake_data_lake_gen2_filesystem_synapse" {
+resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_gen2_filesystem_synapse" {
   storage_account_id = azurerm_storage_account.datalake.id
   name               = "synapse"
 
