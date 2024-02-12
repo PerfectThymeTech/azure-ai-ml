@@ -45,13 +45,13 @@ function Get-PrivateEndpointId {
         [ValidateNotNullOrEmpty()]
         [int]
         $CheckIntervalInSeconds = 10,
-    
+
         [Parameter(Mandatory = $false)]
         [ValidateNotNullOrEmpty()]
         [int]
         $CheckFrequency = 10
     )
-    
+
     # Initialize variable
     $privateEndpointId = $null
 
@@ -84,7 +84,7 @@ function Approve-PrivateEndpoint {
         [String]
         $PrivateEndpointId
     )
-    
+
     # Check status of private endpoint
     Write-Output "Checking status of Private Endpoint"
     $privateEndpointstatus = $(az network private-endpoint-connection list --id $ResourceId --query "[?contains(properties.privateEndpoint.id, '$SynapseWorkspaceName.$SynapseManagedPrivateEndpointName')].properties.privateLinkServiceConnectionState.status | [0]" -o json) | ConvertFrom-Json
