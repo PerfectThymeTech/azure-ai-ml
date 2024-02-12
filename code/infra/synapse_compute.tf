@@ -1,6 +1,6 @@
 # Spark pools
 resource "azurerm_synapse_spark_pool" "spark_pool" {
-  for_each             = var.synapse_workspace_spark_pools
+  for_each = var.synapse_workspace_spark_pools
 
   synapse_workspace_id = azurerm_synapse_workspace.synapse_workspace.id
   name                 = each.key
@@ -49,7 +49,7 @@ resource "azurerm_synapse_spark_pool" "spark_pool" {
 
 # Integration runtimes
 resource "azurerm_synapse_integration_runtime_azure" "synapse_integration_runtime_azure" {
-  for_each             = var.synapse_workspace_integration_runtimes
+  for_each = var.synapse_workspace_integration_runtimes
 
   name                 = each.key
   synapse_workspace_id = azurerm_synapse_workspace.synapse_workspace.id
