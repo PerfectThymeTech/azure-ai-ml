@@ -7,6 +7,9 @@ locals {
     name                 = split("/", var.subnet_id)[10]
   }
 
+  default_integration_runtime_name        = "AutoResolveIntegrationRuntime"
+  linked_service_integration_runtime_name = length(var.synapse_workspace_integration_runtimes) > 0 ? keys(var.synapse_workspace_integration_runtimes)[0] : local.default_integration_runtime_name
+
   default_machine_learning_workspace_image_builder_compute_name = "imagebuilder001"
   default_machine_learning_workspace_outbound_rules = {
     # Required pypi dependencies to be able to install libraries

@@ -28,6 +28,7 @@ jobs:
       working_directory: "./code/infra"
       tenant_id: "3556be79-2979-4b19-a1af-4dd4e6d9ed7e"
       subscription_id: "8f171ff9-2b5b-4f0f-aed5-7fa360a1d094"
+      azure_login_enabled: true
       export_terraform_outputs: false
     secrets:
       CLIENT_ID: ${{ secrets.CLIENT_ID }}

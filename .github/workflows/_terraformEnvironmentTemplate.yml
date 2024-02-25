@@ -31,6 +31,11 @@ on:
         required: true
         type: string
         description: "Specifies the subscription id of the deployment."
+      azure_login_enabled:
+        required: false
+        type: boolean
+        default: false
+        description: "Specifies whether terraform outputs should be exported."
       export_terraform_outputs:
         required: false
         type: boolean
@@ -198,7 +203,7 @@ jobs:
     runs-on: [self-hosted]
     continue-on-error: false
     environment: ${{ inputs.environment }}
-    if: github.event_name == 'push' || github.event_name == 'release'
+    # if: github.event_name == 'push' || github.event_name == 'release'
     needs: [plan]
 
     env:
@@ -236,6 +241,14 @@ jobs:
           terraform init -backend-config=../../config/${CONFIG}/azurerm.tfbackend
         env:
           CONFIG: ${{ inputs.config }}
+
+      # Login to Azure
+      - name: Azure Login
+        id: azure_login
+        if: inputs.azure_login_enabled
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ inputs.subscription_id }}","tenantId":"${{ inputs.tenant_id }}"}'
 
       # Terraform Apply
       - name: Terraform Apply
