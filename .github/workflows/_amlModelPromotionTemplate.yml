@@ -1,0 +1,139 @@
+name: Azure ML Model Promotion Template
+
+on:
+  workflow_call:
+    inputs:
+      environment_source:
+        required: true
+        type: string
+        description: "Specifies the source environment."
+      environment_destination:
+        required: true
+        type: string
+        description: "Specifies the destination environment."
+      machine_learning_job_name:
+        required: true
+        type: string
+        description: "Specifies the name of the job."
+      machine_learning_job_output_name:
+        required: false
+        type: string
+        default: best_model
+        description: "Specifies the name of the job output."
+    secrets:
+      CLIENT_ID:
+        required: true
+        description: "Specifies the client id."
+      CLIENT_SECRET:
+        required: true
+        description: "Specifies the client secret."
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  model_download:
+    name: Download model
+    runs-on: [self-hosted]
+    continue-on-error: false
+    environment: ${{ inputs.environment_source }}
+
+    steps:
+      # Check Out Repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v4
+
+      # Login to Azure
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ vars.SUBSCRIPTION_ID }}","tenantId":"${{ vars.TENANT_ID }}"}'
+
+      # Install ML extension
+      - name: Install ML Extension
+        id: aml_install
+        run: |
+          az extension add -n ml
+
+      # Download Model
+      - name: Download Model
+        id: aml_model_download
+        run: |
+          mkdir "${{ github.workspace }}/download/" -p
+          mkdir "${{ github.workspace }}/model/" -p
+
+          az ml job download \
+            --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
+            --workspace-name ${{ vars.ML_WORKSPACE_NAME }} \
+            --name ${{ inputs.machine_learning_job_name }} \
+            --output-name ${{ inputs.machine_learning_job_output_name }} \
+            --download-path ${{ github.workspace }}/download/
+
+          cp -avr "${{ github.workspace }}/download/named-outputs/${{ inputs.machine_learning_job_output_name }}/"* "${{ github.workspace }}/model"
+
+      # Create Artifact
+      - name: Create Artifact
+        id: artifact_create
+        uses: actions/upload-artifact@v3
+        with:
+          name: model
+          path: ${{ github.workspace }}/model/
+
+      # Log out from Azure
+      - name: Log out from Azure
+        id: azure_logout
+        run: |
+          az logout
+
+  model_upload:
+    name: Upload model
+    runs-on: [self-hosted]
+    continue-on-error: false
+    environment: ${{ inputs.environment_destination }}
+    needs: [model_download]
+
+    steps:
+      # Check Out Repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v4
+
+      # Login to Azure
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ vars.SUBSCRIPTION_ID }}","tenantId":"${{ vars.TENANT_ID }}"}'
+
+      # Install ML extension
+      - name: Install ML Extension
+        id: aml_install
+        run: |
+          az extension add -n ml
+
+      # Download Artifact
+      - name: Download ARtifact
+        id: artifact_download
+        uses: actions/download-artifact@v3
+        with:
+          name: model
+          path: ${{ github.workspace }}/model/
+
+      # Register Model
+      - name: Register Model
+        id: aml_model_register
+        run: |
+          az ml model create \
+            --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
+            --workspace-name ${{ vars.ML_WORKSPACE_NAME }} \
+            --file ${{ github.workspace }}/code/ml/model/model.yml \
+            --tags source_job=${{ inputs.machine_learning_job_name }} source_output=${{ inputs.machine_learning_job_output_name }}
+
+      # Log out from Azure
+      - name: Log out from Azure
+        id: azure_logout
+        run: |
+          az logout

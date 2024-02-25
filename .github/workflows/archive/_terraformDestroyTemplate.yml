@@ -12,14 +12,7 @@ on:
         required: true
         type: string
         description: "Specifies the working directory."
-      subscription_id:
-        required: true
-        type: string
-        description: "Specifies the Azure subscription id."
     secrets:
-      TENANT_ID:
-        required: true
-        description: "Specifies the tenant id of the deployment."
       CLIENT_ID:
         required: true
         description: "Specifies the client id."
@@ -35,8 +28,8 @@ jobs:
     environment: ${{ inputs.environment }}
 
     env:
-      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ inputs.subscription_id }}
+      ARM_TENANT_ID: ${{ vars.TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       ARM_USE_OIDC: false
@@ -46,13 +39,6 @@ jobs:
       - name: Check Out Repository
         id: checkout_repository
         uses: actions/checkout@v4
-
-       # Login to Azure
-      - name: Azure Login
-        id: azure_login
-        uses: azure/login@v1
-        with:
-          creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ inputs.subscription_id }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 
       # Terraform Init
       - name: Terraform Init

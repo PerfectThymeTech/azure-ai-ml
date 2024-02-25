@@ -1,0 +1,57 @@
+name: Azure ML Deployment
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/**"
+      - "code/ml/**"
+      - "infra/**"
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/**"
+      - "code/ml/**"
+      - "infra/**"
+
+  release:
+    types: [published]
+
+jobs:
+  aml_training_dev:
+    uses: ./.github/workflows/_amlTrainTemplate.yml
+    name: "Training - Dev"
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    with:
+      environment: "dev"
+    secrets:
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+
+  aml_deploy_dev:
+    uses: ./.github/workflows/_amlDeployTemplate.yml
+    name: "Deploy - Dev"
+    needs: [aml_training_dev]
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    with:
+      environment: "dev"
+      machine_learning_online_endpoint_name: ${{ needs.infra_deployment_dev.outputs.machine_learning_online_endpoint_name }}
+    secrets:
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+
+  # aml_model_promotion_dev_to_prd:
+  #   uses: ./.github/workflows/_amlModelPromotionTemplate.yml
+  #   name: "Model Promotion - Dev to Prod"
+  #   needs: [aml_training_dev]
+  #   if: github.event_name == 'push'
+  #   with:
+  #     environment_source: "dev"
+  #     environment_destination: "prd"
+  #     machine_learning_job_name: ${{ needs.aml_training_dev.outputs.machine_learning_job_name }}
+  #     machine_learning_job_output_name: best_model
+  #   secrets:
+  #     CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  #     CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}

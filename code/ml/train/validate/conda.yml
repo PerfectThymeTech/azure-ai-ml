@@ -1,0 +1,13 @@
+name: validate
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+    - mlflow~=2.9.2
+    - mltable~=1.4.1
+    - azureml-mlflow~=1.54.0
+    - azureml-dataprep[pandas]~=4.12.9
+    - scikit-learn~=1.4.0
+    - fastparquet~=2023.10.1
